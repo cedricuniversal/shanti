@@ -37,7 +37,7 @@ def svr(train, test):
     xtrain, ytrain = [z[::trainskip] for z in [xtrain, ytrain]]
     ntrain = len(xtrain)
     ntest = len(xtest)
-    print([z.shape for z in [xtrain, ytrain, xtest, ytest]])
+    # print([z.shape for z in [xtrain, ytrain, xtest, ytest]])
     xtest = pca.transform(test.reshape(len(test), -1)).reshape(120, -1)
     regrs = []
     pred = []

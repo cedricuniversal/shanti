@@ -90,15 +90,18 @@ for i in range(2,30):
   if silhouette_avg > silhouette_best:
     silhouette_best = silhouette_avg
     n_clusters_best = n_clusters
-    plt.imshow(cluster_labels.reshape((13,20)), interpolation='none')
-    plt.title("%i clusters silhouette : %f"%(n_clusters,silhouette_avg))
-    plt.show()
+    #plt.imshow(cluster_labels.reshape((13,20)), interpolation='none')
+    #plt.title("%i clusters silhouette : %f"%(n_clusters,silhouette_avg))
+    #plt.show()
 
 n_clusters = n_clusters_best
 clusterer = KMeans(n_clusters=n_clusters, random_state=10)
 cluster_labels = clusterer.fit_predict(X)
 dtw_clusters = cluster_labels.reshape((13,20))
 np.save('cluster_labels_spi.npy', cluster_labels)
+
+print("DTW cLuster labels stored")
+exit()
 
 # Generate Clustered SPI SET
 

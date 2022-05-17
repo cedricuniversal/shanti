@@ -3,6 +3,7 @@ import numpy as np
 import xarray as xr
 
 test_input = np.load('test_input_sample.npy')
+#test_input = np.load('test_input.npy')
 
 test_input = test_input.reshape(360, 13, 20)
 
@@ -10,7 +11,7 @@ cluster_labels = np.load('cluster_labels_spi.npy')
 cluster_labels = cluster_labels.reshape((13, 20))
 
 test0 = np.array([z[cluster_labels==0] for z in test_input])
-print(test0.shape)
+#print(test0.shape)
 test1 = np.array([z[cluster_labels==1] for z in test_input])
 
 file_name = 'CESM_EA_SPI.nc'
@@ -33,4 +34,5 @@ for i in range(120):
     foo[i][cluster_labels==0] = pred0[i]
     foo[i][cluster_labels==1] = pred1[i]
 
+#np.save('test_submission.npy', foo)
 np.save('test_submission_sample_cluster.npy', foo)

@@ -18,7 +18,7 @@ ds = xr.open_dataset(file_name)
 spi = ds['spi']
 spi = spi.dropna(dim='time')
 
-print(spi.shape)
+# print(spi.shape)
 # test_input (120, 13, 20, 3)
 
 n = 120
@@ -37,10 +37,12 @@ for i in range(n):
     test.append(spi[offset:offset + lag].values.reshape(13,20,3))
     truth.append(spi[offset+lag+nsteps-1])
 
-print(np.array(truth).shape)
-print(np.array(test).shape)
+#print(np.array(truth).shape)
+#print(np.array(test).shape)
 np.save('test_input_sample.npy', test)
 np.save('truth_sample.npy', truth)
+
+exit()
 
 import numpy as np
 import xarray as xr
@@ -77,7 +79,7 @@ models = np.load(prefix + 'models_spi.npy', allow_pickle=True)
 
 test_input = np.load('test_input_sample.npy')  # Trained on train
 
-print('test_input', test_input.shape)
+# print('test_input', test_input.shape)
 
 # print(test_input)
 
@@ -134,7 +136,7 @@ if run:
 
             n += 1
 
-print(n, ' time stamps')
+# print(n, ' time stamps')
 # print(df_spi)
 
 # Predict on Evaluation set using VAR and DTW clusters, recompose
@@ -209,4 +211,4 @@ for i in range(120):
     mse = mean_squared_error(saved_predictions_eval[i], truth[i])
     mse_values.append(mse)
     # print(mse)
-print('Mean mse on 120 random samples', np.array(mse_values).mean())
+print('SAMPLE VAR Mean mse on 120 random samples', np.array(mse_values).mean())
