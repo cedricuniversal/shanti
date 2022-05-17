@@ -11,7 +11,6 @@ import pandas as pd
 from statsmodels.tsa.vector_ar.var_model import VAR
 import random
 
-!pip install pyts
 import pyts.metrics
 
 file_name = 'CESM_EA_SPI.nc'
@@ -49,7 +48,7 @@ import pandas
 from statsmodels.tsa.vector_ar.var_model import VAR
 from sklearn.metrics import mean_squared_error
 
-prefix = 'data/'
+prefix = ''
 
 # cluster_labels = np.load('cluster_labels_train.npy')     # Trained on train
 
