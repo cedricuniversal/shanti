@@ -202,10 +202,11 @@ np.save('test_submission_sample.npy', np.array(saved_predictions_eval))
 
 truth = np.load('truth_sample.npy')
 print(np.array(saved_predictions_eval).shape, np.array(truth).shape)
-mse_values = []
 
+truth = np.load('truth_sample.npy')
+mse_values = []
 for i in range(120):
     mse = mean_squared_error(saved_predictions_eval[i], truth[i])
     mse_values.append(mse)
     # print(mse)
-print('mean mse', np.array(mse_values).mean())
+print('Mean mse on 120 random samples', np.array(mse_values).mean())
