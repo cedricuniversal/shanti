@@ -27,8 +27,9 @@ def dtw_cluster_svr(test_input):
         predictions[cluster] = svr(train, test)
 
     foo = np.zeros((120, 13, 20))
-    for cluster in range(len(cluster_labels)):
-        for i in range(list(cluster_labels.reshape(-1)).count(cluster)):
+
+    for cluster in range(n_clusters):
+        for i in range(120):
             foo[i][cluster_labels == cluster] = predictions[cluster][i]
 
     return foo
