@@ -6,6 +6,7 @@ def dtw_cluster_svr(test_input):
     test_input = test_input.reshape(360, 13, 20)
 
     cluster_labels = np.load('cluster_labels_spi.npy')
+    n_clusters = len(set(cluster_labels))
     cluster_labels = cluster_labels.reshape((13, 20))
 
     file_name = 'CESM_EA_SPI.nc'
@@ -15,9 +16,10 @@ def dtw_cluster_svr(test_input):
     spi = spi[5:] # remove NaNs
     spi = spi.data
 
-    predictions = [[] for i in range(len(cluster_labels))]
+    predictions = [[] for i in range(n_clusters)]
 
-    for cluster in range(len(cluster_labels)):
+    for cluster in range(n_clusters):
+
         test = np.array([z[cluster_labels == cluster] for z in test_input])
 
         train = np.array([z[cluster_labels == cluster] for z in spi])

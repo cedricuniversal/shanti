@@ -19,7 +19,7 @@ print('# of NaNs: ', len(spi[spi != spi]))
 nhist = 3
 lead = 3
 trainskip = 1
-npcs = 25 # 25 explains 90%
+npcs = 10 # 25 explains 90%
 pca = PCA(random_state=0, n_components=npcs, copy=False, whiten=True)
 pca.fit(spi)
 pcs = pca.transform(spi)
@@ -59,4 +59,4 @@ for ipc in range(npcs):
 pred = np.array(pred).T
 predphys = pca.inverse_transform(pred).reshape(120, 13, 20)
 #Send predphys
-np.save('test_submission_sample.npy', predphys)
+np.save('test_submission_sample_alone.npy', predphys)
