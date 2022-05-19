@@ -25,7 +25,7 @@ spi = spi.dropna(dim='time')
 
 # Calculate DTW matrix
 
-train_size = 1200
+train_size = 6000
 
 #data = train[-train_size:]
 data = spi[-train_size:]              # remove comment
