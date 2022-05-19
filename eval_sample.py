@@ -4,7 +4,7 @@ from sklearn.metrics import mean_squared_error
 truth = np.load('truth_sample.npy')
 #pred = np.load('test_submission_sample_cluster.npy')
 #pred = np.load('test_submission_sample_alone.npy')
-pred = np.load('test_submission_sample.npy')
+pred = np.load('test_submission.npy')
 
 #print('Predictions shape', pred.shape)
 #print('Truth shape', truth.shape)

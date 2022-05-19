@@ -9,7 +9,7 @@ from sklearn.model_selection import StratifiedShuffleSplit, KFold,  GridSearchCV
 from sklearn.decomposition import PCA
 from scipy.stats import pearsonr
 
-def svr(train, test):
+def svrpca(train, test):
     #test = test.reshape(len(test) * lead_time, 13, 20)
     C = 0.01
     gamma = 0.0001
@@ -50,34 +50,45 @@ def svr(train, test):
     #xtrain, ytrain = [z[::trainskip] for z in [xtrain, ytrain]]
     ntrain = len(xtrain)
 
-    npcs = 10 # 25 explains 90%
+    npcs = 25 # 25 explains 90%
     pca = PCA(random_state=0, n_components=npcs, copy=False, whiten=True)
 
     print('xtrain', xtrain.shape)
     pca.fit(train.reshape(len(train), -1))
-
-    #train_pca = pca.transform(train)
-    #test_pca = pca.transform(test)
+    print(train.reshape(len(train), -1).shape)
 
     # print([z.shape for z in [xtrain, ytrain, xtest, ytest]])
-    print(test.shape)
     #xtest = pca.transform(test.reshape(test.shape[0]*test.shape[2], test.shape[1]))#.reshape(len(test), -1)
     #xtrain = pca.transform(xtrain.reshape(len(train), -1))  # .reshape(len(test), -1)
+    #print(test.shape)
 
-    xtest = test.reshape(test.shape[0], test.shape[1]*test.shape[2]) # .reshape(-1, test.shape[1]*3)
+    print(xtrain.shape)
+    xtrain_pca = pca.transform(xtrain.reshape(-1,260))
+    xtrain_pca = xtrain_pca.reshape(xtrain.shape[0], xtrain_pca.shape[1]*lead)
+
+    print(xtrain_pca.shape)
+
+    ytrain_pca = pca.transform(ytrain)
+
+    xtest = test.reshape(test.shape[0]*test.shape[3], test.shape[1]*test.shape[2]) # .reshape(-1, test.shape[1]*3)
+
+    xtest_pca = pca.transform(xtest)
+    xtest_pca = xtest_pca.reshape(test.shape[0], xtest_pca.shape[1]*lead)
+    print(xtest_pca.shape)
 
     ntest = len(xtest)
     regrs = []
     pred = []
 
     cluster_size = train.shape[1]
-    for target in range(cluster_size):
+    for target in range(npcs):
         regr = SVR() #kernel='rbf', C=C, gamma=gamma)
-        regr.fit(xtrain, ytrain[:, target])
+
+        regr.fit(xtrain_pca, ytrain_pca[:, target])
         #print(xtest.shape)
-        pred1 = regr.predict(xtest)
+        pred1 = regr.predict(xtest_pca)
         regrs.append(regr)
         pred.append(pred1)
     pred = np.array(pred).T
-    #predphys = pca.inverse_transform(pred)#.reshape(120, 13, 20)
-    return pred
+    predphys = pca.inverse_transform(pred)#.reshape(120, 13, 20)
+    return predphys

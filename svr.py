@@ -22,7 +22,7 @@ def svr(train, test):
     #ntot = len(pcs)
     print(test.shape)
     print(train.shape)
-    ntot = train.shape[1]
+    ntot = train.shape[0]
     #pcs = train
     tlast = ntot - lead
     indx = np.arange(ntot)
@@ -52,25 +52,29 @@ def svr(train, test):
 
     npcs = 10 # 25 explains 90%
     pca = PCA(random_state=0, n_components=npcs, copy=False, whiten=True)
-    pca.fit(train)
+
+    print('xtrain', xtrain.shape)
+    pca.fit(train.reshape(len(train), -1))
 
     #train_pca = pca.transform(train)
     #test_pca = pca.transform(test)
 
     # print([z.shape for z in [xtrain, ytrain, xtest, ytest]])
-
-    #xtest = pca.transform(test.reshape(len(test), -1))#.reshape(len(test), -1)
+    print(test.shape)
+    #xtest = pca.transform(test.reshape(test.shape[0]*test.shape[2], test.shape[1]))#.reshape(len(test), -1)
+    #xtrain = pca.transform(xtrain.reshape(len(train), -1))  # .reshape(len(test), -1)
 
     xtest = test.reshape(test.shape[0], test.shape[1]*test.shape[2]) # .reshape(-1, test.shape[1]*3)
 
     ntest = len(xtest)
     regrs = []
     pred = []
-    print(Xp.shape)
+
     cluster_size = train.shape[1]
     for target in range(cluster_size):
         regr = SVR() #kernel='rbf', C=C, gamma=gamma)
         regr.fit(xtrain, ytrain[:, target])
+        #print(xtest.shape)
         pred1 = regr.predict(xtest)
         regrs.append(regr)
         pred.append(pred1)

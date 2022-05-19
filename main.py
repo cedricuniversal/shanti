@@ -16,16 +16,35 @@ from svr import svr
 from dtw_cluster_svr import dtw_cluster_svr
 from cluster_svr import cluster_svr
 
-train, test, truth = random_sample(120)
+train, test, truth = random_sample(1200)
+
+#train_size = 4800
+
+#train = train[-train_size:]
 
 print(train.shape, test.shape, truth.shape)
 
-#predictions_dtw = dtw_cluster_svr(train, test, npcs=25)
-
-cluster_labels = np.load('cluster_labels_spi.npy')
+cluster_labels = np.load('cluster_labels_spi_400.npy')
 predictions_dtw = cluster_svr(train, test, cluster_labels)
 print('Predictions', predictions_dtw.reshape(-1).shape, truth.shape)
 print('DTW ', mean_squared_error(predictions_dtw.reshape(-1), truth.reshape(-1)))
+
+dtw_error = np.array(predictions_dtw-truth).mean(0)
+plt.imshow(np.array(dtw_error))#.reshape((13, 20)))
+plt.title('MEAN Error DTWPCA')
+plt.show()
+
+
+
+from svrpca import svrpca
+predictions_svr = svrpca(train, test)
+print('SVR ', mean_squared_error(predictions_svr.reshape(-1), truth.reshape(-1)))
+svr_error = np.array(predictions_svr.reshape(predictions_svr.shape[0], 13, 20)-truth).mean(0)
+plt.imshow(svr_error)#.reshape((13, 20)))
+plt.title('MEAN Error SVRPCA')
+plt.show()
+
+#predictions_dtw = dtw_cluster_svr(train, test, npcs=25)
 
 #test = test.reshape(len(test)*lead_time, 13, 20)
 test = test.reshape((len(test), 13*20, 3))
@@ -36,10 +55,3 @@ svr_error = np.array(predictions_svr.reshape(predictions_svr.shape[0], 13, 20)-t
 plt.imshow(svr_error)#.reshape((13, 20)))
 plt.title('MEAN Error SVR')
 plt.show()
-
-dtw_error = np.array(predictions_dtw-truth).mean(0)
-plt.imshow(np.array(dtw_error))#.reshape((13, 20)))
-plt.title('MEAN Error DTW')
-plt.show()
-
-
