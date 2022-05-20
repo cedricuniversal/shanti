@@ -14,7 +14,7 @@ def svr(train, test):
     nhist = 3
     lead = 3
     trainskip = 1
-    npcs = 25 # 25 explains 90%
+    npcs = 10 # 25 explains 90%
     pca = PCA(random_state=0, n_components=npcs, copy=False, whiten=True)
     pca.fit(train)
     pcs = pca.transform(train)
