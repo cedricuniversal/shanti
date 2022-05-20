@@ -63,14 +63,14 @@ def svrpca(train, test):
     #print(test.shape)
 
     print(xtrain.shape)
-    xtrain_pca = pca.transform(xtrain.reshape(-1,260))
+    xtrain_pca = pca.transform(xtrain.reshape(-1, train.shape[1]))
     xtrain_pca = xtrain_pca.reshape(xtrain.shape[0], xtrain_pca.shape[1]*lead)
 
     print(xtrain_pca.shape)
 
     ytrain_pca = pca.transform(ytrain)
-
-    xtest = test.reshape(test.shape[0]*test.shape[3], test.shape[1]*test.shape[2]) # .reshape(-1, test.shape[1]*3)
+    print(test.shape)
+    xtest = test.reshape(test.shape[0], test.shape[1]*test.shape[2]) # .reshape(-1, test.shape[1]*3) # *test.shape[3]
 
     xtest_pca = pca.transform(xtest)
     xtest_pca = xtest_pca.reshape(test.shape[0], xtest_pca.shape[1]*lead)

@@ -1,11 +1,8 @@
-from cluster_svr import cluster_svr
+from dtw_cluster_sample import dtw_cluster_svr
 import numpy as np
 
-train, test, truth = random_sample(1200)
 test = np.load('test_input.npy')
 
-cluster_labels = np.load('cluster_labels_spi_400.npy')
-predictions_dtw = cluster_svr(train, test, cluster_labels)
-results = dtw_cluster_svr(test_input)
+results = dtw_cluster_svr(test)
 
 np.save('test_submission.npy', results)
