@@ -35,8 +35,11 @@ def dtw_cluster_svr(test_input):
     return foo
 
 
-test_input = np.load('test_input_sample.npy')
+if __name__ == "__main__":
 
-results = dtw_cluster_svr(test_input)
+    test_input = np.load('test_input_sample.npy')
 
-np.save('test_submission_sample.npy', results)
+    results = dtw_cluster_svr(test_input)
+
+    np.save('test_submission_sample.npy', results)
+
